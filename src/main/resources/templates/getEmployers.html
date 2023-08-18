@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee List</title>
+    <script src="https://kit.fontawesome.com/9470ca765a.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>Employers List</h1>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Action</td>
+    </tr>
+    <tr th:each="employer: ${employers}">
+        <td th:text="${employer.id}">Id</td>
+        <td th:text="${employer.name}">Name</td>
+        <td>
+            <a style="color:black" th:href="@{/deleteEmployer(id=${employer.id})}">
+                <i class="fa-solid fa-trash ms-4 p-3"></i></a>
+        </td>
+    </tr>
+</table>
+<div class="btn-block">
+    <button><a href="/">Back</a></button>
+</div>
+</body>
+</html>
