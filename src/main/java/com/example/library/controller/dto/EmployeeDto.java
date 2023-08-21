@@ -12,6 +12,6 @@ public class EmployeeDto {
     private int age;
     private String function;
     private float experience;
-
+    private String dateOfBirth;
     private Integer employerId;
 }

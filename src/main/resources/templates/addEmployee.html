@@ -201,6 +201,7 @@
 
 
 
+
     </style>
 </head>
 <body>
@@ -224,6 +225,10 @@
                 <input id="age" type="text" name="age" th:field="*{age}" required/>
             </div>
             <div class="item">
+                <label for="dateOfBirth">Date Of Birth</label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" th:field="*{dateOfBirth}" required>
+            </div>
+            <div class="item">
                 <label for="function">Function<span>*</span></label>
                 <input id="function" type="text" name="function" th:field="*{function}" required/>
             </div>
@@ -233,7 +238,7 @@
             </div>
             <div class="item">
                 <label>Employer Id</label>
-                <input id="employerId" type="text" name="employerId" th:field="*{employerId}" required/>
+                <input id="employerId" type="text" name="employerId" th:field="*{employerId}"/>
             </div>
             <input id="id" type="text" name="id" th:field="*{id}" style="display:none"/>
             <div class="btn-block">

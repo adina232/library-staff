@@ -9,7 +9,11 @@ import com.example.library.repository.EmployerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,13 +31,14 @@ class EmployeeServiceTest {
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setFirstName("Test");
         employeeDto.setEmployerId(1);
+        employeeDto.setDateOfBirth("2000-09-01");
 
         Employer employer = new Employer();
 
         Employee employee = new Employee();
         employee.setFirstName("Test");
         employee.setEmployer(employer);
-
+        employee.setDateOfBirth(parseDate("2000-09-01"));
 
         when(employerRepository.findById(1))
                 .thenReturn(Optional.of(employer));
@@ -48,18 +53,30 @@ class EmployeeServiceTest {
 //        verify(employeeRepository).save(argThat(arg -> arg.getFirstName().equals("Test")));
     }
 
+    private static Date parseDate(String date) {
+        Date response;
+        try {
+            response = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return response;
+    }
+
     @Test
     void addEmployee_whenEmployerIsNotPresent_thanSaveEmployeeWithoutEmployer() {
         // declar datele cu care lucrez
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setFirstName("Test");
         employeeDto.setEmployerId(1);
+        employeeDto.setDateOfBirth("2021-03-21");
 
         Employer employer = new Employer();
 
         Employee employee = new Employee();
         employee.setFirstName("Test");
         employee.setEmployer(employer);
+        employee.setDateOfBirth(parseDate("2000-03-21"));
 
 
         when(employerRepository.findById(2))
@@ -87,6 +104,7 @@ class EmployeeServiceTest {
         Employee e1 = new Employee();
         e1.setFirstName("a");
         e1.setId(1);
+        e1.setDateOfBirth(parseDate("2000-03-21"));
 
         Employee e2 = new Employee();
         e2.setFirstName("b");
@@ -94,6 +112,7 @@ class EmployeeServiceTest {
         Employer employer = new Employer();
         employer.setName("Test");
         e2.setEmployer(employer);
+        e2.setDateOfBirth(parseDate("2021-03-21"));
 
         employeeList.add(e2);
         employeeList.add(e1);
@@ -118,6 +137,8 @@ class EmployeeServiceTest {
         assertEquals(0.0, employeeDtoNameList.get(1).getExperience());
         assertNull(employeeDtoNameList.get(0).getEmployerName());
         assertEquals("Test", employeeDtoNameList.get(1).getEmployerName());
+        assertEquals("2000-03-21", employeeDtoNameList.get(0).getDateOfBirth());
+        assertEquals("2021-03-21", employeeDtoNameList.get(1).getDateOfBirth());
     }
 
     @Test
@@ -135,8 +156,10 @@ class EmployeeServiceTest {
         Employee employee = new Employee();
         employee.setId(1);
         employee.setFirstName("Test");
+        employee.setDateOfBirth(parseDate("2021-03-21"));
         Employer employer = new Employer();
         employer.setId(2);
+        employee.setDateOfBirth(parseDate("2000-03-21"));
         employee.setEmployer(employer);
 
         when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
@@ -164,6 +187,7 @@ class EmployeeServiceTest {
         Employee employee = new Employee();
         employee.setId(1);
         employee.setFirstName("Test");
+        employee.setDateOfBirth(parseDate("2021-03-21"));
 
         when(employeeRepository.findById(1)).thenReturn(Optional.of(employee));
 

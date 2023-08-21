@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -20,10 +23,18 @@ public class EmployeeService {
 
     public void addEmployee(EmployeeDto employee) {
 
+        Date date;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(employee.getDateOfBirth());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
         Employee employeeEntity = new Employee();
         employeeEntity.setId(employee.getId());
         employeeEntity.setLastName(employee.getLastName());
         employeeEntity.setAge(employee.getAge());
+        employeeEntity.setDateOfBirth(date);
         employeeEntity.setFunction(employee.getFunction());
         employeeEntity.setFirstName(employee.getFirstName());
         employeeEntity.setExperience(employeeEntity.getExperience());
@@ -40,12 +51,16 @@ public class EmployeeService {
     public List<EmployeeDtoName> getEmployees() {
         List<Employee> employeeList = employeeRepository.findAll();
         List<EmployeeDtoName> employeeDtoNameList = new ArrayList<>();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         for (Employee employee : employeeList) {
             EmployeeDtoName employeeDtoName = new EmployeeDtoName();
             employeeDtoName.setId(employee.getId());
             employeeDtoName.setFirstName(employee.getFirstName());
             employeeDtoName.setLastName(employee.getLastName());
             employeeDtoName.setAge(employee.getAge());
+            employeeDtoName.setDateOfBirth(dateFormat.format(employee.getDateOfBirth()));
             employeeDtoName.setFunction(employee.getFunction());
             employeeDtoName.setExperience(employee.getExperience());
             if (employee.getEmployer() != null) {
@@ -71,11 +86,14 @@ public class EmployeeService {
         ModelAndView mav = new ModelAndView("addEmployee");
         Employee employee = employeeRepository.findById(id).get();
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setId(employee.getId());
         employeeDto.setFirstName(employee.getFirstName());
         employeeDto.setLastName(employee.getLastName());
         employeeDto.setAge(employee.getAge());
+        employeeDto.setDateOfBirth(dateFormat.format(employee.getDateOfBirth()));
         employeeDto.setFunction(employee.getFunction());
         employeeDto.setExperience(employee.getExperience());
         if (employee.getEmployer() != null) {

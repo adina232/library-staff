@@ -10,6 +10,7 @@ public class EmployeeDtoName {
     private String firstName;
     private String lastName;
     private int age;
+    private String dateOfBirth;
     private String function;
     private float experience;
 
